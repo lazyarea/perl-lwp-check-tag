@@ -11,7 +11,7 @@ $ cpan -i Data::Dumper;
 
 
 # CSV FORMAT
-url,AuthName,user,passwd,id,id.....
+url,AuthName,user,passwd,href,href,.....
 
 # create .htpasswd
 $ sudo passwd -c -b /etc/httpd/conf/.example.com.htpasswd test test
