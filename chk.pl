@@ -12,9 +12,11 @@ my @csv = &load_csv_from_file("./chk.csv");
 my $tag = 'a';
 
 foreach my $line (@csv){
-  my $url = shift($line);
-  my $tags = &find_tag_from_content($line->[0], $tag); # htmlをparseして指定タグをリストで返す;
-#  warn Dumper "[$url]";
+  my $url   = shift($line);
+  my $realm = shift($line);
+  my $user = shift($line);
+  my $pass = shift($line);
+  my $tags = &find_tag_from_content($url, $realm, $user, $pass, $tag); # htmlをparseして指定タグをリストで返す;
 
   foreach my $l (@$line){
     my $flag = undef;
@@ -26,24 +28,26 @@ foreach my $line (@csv){
     }
     warn Dumper $l." is not found." if !$flag;
   }
-
-
-#  my @list = &find_tag_from_content($line->[0], $tag); # htmlをparseして指定タグをリストで返す
-#  warn Dumper @list;
-#  foreach my $a ($line)
-#  {
-#    warn Dumper $a;
-#  }
 }
 
 sub find_tag_from_content
 {
-#    my $url = $_[0];
-my $url = 'http://example.com';
-    my $tag = $_[1];
+    my $url   = $_[0];
+    my $realm = $_[1];
+    my $user  = $_[2];
+    my $pass  = $_[3];
+    my $tag   = $_[4];
     # get content
     my $ua = LWP::UserAgent->new();
-    my $res = $ua->get($url);
+    my $req = HTTP::Request->new(GET => $url);
+    $req->authorization_basic($user, $pass);
+    my $res = $ua->request($req);
+#    if ($res->is_success) {
+#       print $res->content, "\n";
+#    } else {
+#        print "ERROR.\n";
+#        print $res->status_line, "\n";
+#    }
     my $content = $res->content;
     # parse with HTML::TreeBuilder
     my $tree = HTML::TreeBuilder->new;
@@ -55,27 +59,6 @@ my $url = 'http://example.com';
     return \@list;
 }
 
-# urlを指定する
-#my $url = 'http://qiita.com/m2t9/items/11aea3d8e6ebbeef88c9#%E8%A3%9C%E8%B6%B3';
-my $url = 'http://example.com';
-
-# IE8のフリをする
-#my $user_agent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)";
-
-# LWPを使ってサイトにアクセスし、HTMLの内容を取得する
-my $ua = LWP::UserAgent->new();
-my $res = $ua->get($url);
-my $content = $res->content;
-
-# HTML::TreeBuilderで解析する
-my $tree = HTML::TreeBuilder->new;
-my $html = $tree->parse($content);
-
-# aタグを全部抽出
-my @items =  $tree->look_down('_tag', 'a');
-my @list;
-push(@list, $_->as_HTML) for @items;
-#
 
 # laod csv from file
 sub load_csv_from_file
@@ -95,3 +78,5 @@ sub load_csv_from_file
   return @rows;
 }
 
+# IE8のフリをする
+#my $user_agent = "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0)";

@@ -11,4 +11,18 @@ $ cpan -i Data::Dumper;
 
 
 # CSV FORMAT
-url,relm,user,passwd,id,id.....
+url,AuthName,user,passwd,id,id.....
+
+# create .htpasswd
+$ sudo passwd -c -b /etc/httpd/conf/.example.com.htpasswd test test
+
+
+# /etc/httpd/conf.d/example.conf
+        <Directory /home/sites/example.com/html/tmp>
+                AuthUserFile /etc/httpd/conf/.example.com.htpasswd
+                AuthGroupFile /dev/null
+                AuthName "Basic Auth"
+                AuthType Basic
+                Require valid-user
+        </Directory>
+
