@@ -7,7 +7,7 @@ $ source .bash_profile
 $ cpan -i LWP::UserAgent
 $ cpan -i HTML::TreeBuilder
 $ cpan -i Text::CSV
-$ cpan -i Data::Dumper;
+$ cpan -i Data::Dumper
 
 
 # CSV FORMAT
