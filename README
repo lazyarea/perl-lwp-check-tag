@@ -1,3 +1,5 @@
+# SETUP
+
 $ sudo yum install -y perl-local-lib
 $ perl -Mlocal::lib
 結果を.bash_profileへ
@@ -8,3 +10,5 @@ $ cpan -i Text::CSV
 $ cpan -i Data::Dumper;
 
 
+# CSV FORMAT
+url,relm,user,passwd,id,id.....
