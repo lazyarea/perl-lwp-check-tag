@@ -1,0 +1,10 @@
+$ sudo yum install -y perl-local-lib
+$ perl -Mlocal::lib
+結果を.bash_profileへ
+$ source .bash_profile
+$ cpan -i LWP::UserAgent
+$ cpan -i HTML::TreeBuilder
+$ cpan -i Text::CSV
+$ cpan -i Data::Dumper;
+
+
