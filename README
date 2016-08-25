@@ -14,7 +14,7 @@ $ cpan -i Data::Dumper
 url,AuthName,user,passwd,href,href,.....
 
 # create .htpasswd
-$ sudo passwd -c -b /etc/httpd/conf/.example.com.htpasswd test test
+$ sudo htpasswd -c -b /etc/httpd/conf/.example.com.htpasswd test test
 
 
 # /etc/httpd/conf.d/example.conf
